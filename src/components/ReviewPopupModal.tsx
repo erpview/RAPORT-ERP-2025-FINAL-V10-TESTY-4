@@ -35,6 +35,7 @@ const ReviewPopupModal: React.FC<ReviewPopupModalProps> = ({ isOpen, onClose, re
     if (!sectionData) return null;
 
     const isRatingValue = (value: any): boolean => {
+      if (value === 'n/a') return true;
       const num = Number(value);
       return !isNaN(num) && num >= 1 && num <= 5;
     };
@@ -67,20 +68,24 @@ const ReviewPopupModal: React.FC<ReviewPopupModalProps> = ({ isOpen, onClose, re
               <div key={`${sectionTitle}-${key}-${index}`} className="bg-white border border-gray-100 rounded-lg shadow-sm hover:shadow-md transition-shadow p-4">
                 <div className="text-[15px] font-semibold text-[#2c3b67] mb-2">{key}</div>
                 {showStars ? (
-                  <div className="flex items-center gap-2">
-                    <div className="flex gap-1">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <Star
-                          key={star}
-                          className={cn(
-                            'w-5 h-5',
-                            star <= rating ? 'text-[#2c3b67] fill-[#2c3b67]' : 'text-gray-200'
-                          )}
-                        />
-                      ))}
+                  value === 'n/a' ? (
+                    <div className="text-sm font-medium text-[#2c3b67]">Niedotyczy</div>
+                  ) : (
+                    <div className="flex items-center gap-2">
+                      <div className="flex gap-1">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <Star
+                            key={star}
+                            className={cn(
+                              'w-5 h-5',
+                              star <= rating ? 'text-[#2c3b67] fill-[#2c3b67]' : 'text-gray-200'
+                            )}
+                          />
+                        ))}
+                      </div>
+                      <span className="text-sm font-medium text-[#2c3b67]">{rating}/5</span>
                     </div>
-                    <span className="text-sm font-medium text-[#2c3b67]">{rating}/5</span>
-                  </div>
+                  )
                 ) : showNPS ? (
                   <div className="space-y-3">
                     <div className="grid grid-cols-11 gap-1 w-full">
