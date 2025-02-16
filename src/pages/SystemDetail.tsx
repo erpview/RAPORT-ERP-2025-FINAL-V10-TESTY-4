@@ -562,14 +562,14 @@ const SystemDetail: React.FC = () => {
 
       console.log('Loaded likes data:', likesData);
 
-      // Load dislikes from published responses
+      // Load dislikes from published responses (from the same module as likes)
       const { data: dislikesData, error: dislikesError } = await supabase
         .from('survey_responses')
         .select('responses, created_at')
         .eq('assignment_id', assignmentId)
         .eq('form_id', '65220036-b679-427b-8d75-4300b8634452')
         .eq('status', 'published')
-        .not('responses->79913215-7d75-4853-8f70-35ee5f7ecc17', 'is', 'null')
+        .not('responses->bccaf7e8-5f79-41f9-b338-6e861d94577b', 'is', 'null')
         .order('created_at', { ascending: false});
 
       if (dislikesError) {
@@ -593,7 +593,7 @@ const SystemDetail: React.FC = () => {
 
       const processedDislikes = dislikesData
         ?.map(item => {
-          const moduleResponses = item.responses?.['79913215-7d75-4853-8f70-35ee5f7ecc17'] || {};
+          const moduleResponses = item.responses?.['bccaf7e8-5f79-41f9-b338-6e861d94577b'] || {};
           const content = moduleResponses['fb6fa55b-8dbf-415d-bb32-4647187dea41'] || '';
           console.log('Processing dislike item:', { raw: item, moduleResponses, content });
           return {
